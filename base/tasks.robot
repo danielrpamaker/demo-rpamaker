@@ -12,10 +12,11 @@ ${MAX_ATTEMPTS}=  4
 Open Website and Get Table Data
     Open Browser  ${URL}  browser=chrome
     ${attempts}=  Set Variable  0
-    :FOR  ${attempts}  IN RANGE  ${MAX_ATTEMPTS}
-    \  ${table_data}=  Run Keyword And Return Status  Get Table Data
-    \  Exit For Loop If  ${table_data}
-    \  Sleep  5s
+    FOR  ${attempts}  IN RANGE  ${MAX_ATTEMPTS}
+        ${table_data}=  Run Keyword And Return Status  Get Table Data
+        Exit For Loop If  ${table_data}
+        Sleep  5s
+    END
     Log  ${table_data}
 
 *** Keywords ***
