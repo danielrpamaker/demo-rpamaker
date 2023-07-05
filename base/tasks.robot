@@ -1,16 +1,14 @@
 *** Settings ***
 Library  SeleniumLibrary
-Library  Collections
 Suite Teardown  Close All Browsers
 
-*** Keywords ***
-Get Table Info
-    Open Browser  https://www.cnbc.com/world/?region=world  chrome
-    Wait Until Page Contains Element  //*[@id='HomePageInternational-MarketsModule-13']/section[2]/section[1]/div[1]/div/div/div[1]/div/table  timeout=30
-    ${table_info}=  Get Element Attribute  //*[@id='HomePageInternational-MarketsModule-13']/section[2]/section[1]/div[1]/div/div/div[1]/div/table  outerHTML
-    Log  ${table_info}
-    Close Browser
+*** Variables ***
+${URL}=  https://www.cnbc.com/world/?region=world
+${TABLE_XPATH}=  //*[@id="HomePageInternational-MarketsModule-13"]/section[2]/section[1]/div[1]/div/div/div[1]/div/table
 
 *** Test Cases ***
-Test
-    Get Table Info
+Open Website and Log Table
+    Open Browser  ${URL}  browser=chrome
+    Wait Until Page Contains Element  ${TABLE_XPATH}  timeout=10
+    ${table_html}=  Get Element Attribute  ${TABLE_XPATH}  outerHTML
+    Log  ${table_html}
