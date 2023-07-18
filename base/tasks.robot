@@ -1,38 +1,26 @@
 *** Settings ***
-Library  SeleniumLibrary
-Library  ExcelLibrary
+Library           RPA.Browser.Selenium
+Library           RPA.Excel.Files
+Library           RPA.HTTP
 
 *** Variables ***
-${URL}  http://rpachallenge.com
-${DOWNLOAD_PATH}  /path/to/download/directory
-${EXCEL_FILE}  ${DOWNLOAD_PATH}/RPA_Challenge.xlsx
+${URL}            http://rpachallenge.com
+${DOWNLOAD_URL}   http://rpachallenge.com/assets/downloadFiles/challenge.xlsx
+${FILE_PATH}      ${CURDIR}${/}challenge.xlsx
 
-*** Test Cases ***
+*** Tasks ***
 Download and Fill Form
-    Open Browser  ${URL}  browser=chrome
-    Click Element  css:.downloadButton
-    Wait Until Keyword Succeeds  10x  3s  File Should Exist  ${EXCEL_FILE}
-    @{data}=  Read Excel  ${EXCEL_FILE}
-    FOR  ${row}  IN  @{data}
-        Fill Form  @{row}
+    Open Browser    ${URL}    browser=chrome
+    Download File   ${DOWNLOAD_URL}   ${FILE_PATH}
+    ${sheet}=   Read Worksheet As Table   ${FILE_PATH}
+    FOR   ${row}   IN   @{sheet}
+        Input Text   id:firstName   ${row}[First Name]
+        Input Text   id:lastName    ${row}[Last Name]
+        Input Text   id:companyName ${row}[Company Name]
+        Input Text   id:role        ${row}[Role in Company]
+        Input Text   id:address     ${row}[Address]
+        Input Text   id:email       ${row}[Email]
+        Input Text   id:phone       ${row}[Phone Number]
+        Click Button   xpath://*[@id="saveBtn"]
     END
     Close Browser
-
-*** Keywords ***
-Read Excel
-    [Arguments]  ${file}
-    Open Excel  ${file}
-    @{data}=  Read Worksheet As Table
-    Close Excel
-    [Return]  ${data}
-
-Fill Form
-    [Arguments]  @{data}
-    Input Text  id:firstName  ${data}[0]
-    Input Text  id:lastName  ${data}[1]
-    Input Text  id:companyName  ${data}[2]
-    Input Text  id:role  ${data}[3]
-    Input Text  id:address  ${data}[4]
-    Input Text  id:email  ${data}[5]
-    Input Text  id:phone  ${data}[6]
-    Click Button  id:submit
