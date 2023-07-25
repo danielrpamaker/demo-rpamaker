@@ -1,11 +1,13 @@
 *** Settings ***
 Library  SeleniumLibrary
+Suite Teardown  Close All Browsers
 
 *** Variables ***
-${URL}  https://www.elpais.com
+${URL}  https://elpais.com
 
 *** Test Cases ***
-Open Website
-    Open Browser  ${URL}  browser=chrome
-    Sleep  10s
-    Close Browser
+Open Website and Wait
+	${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+	${options.binary_location} =    Set Variable    /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+	Open Browser    ${URL}    browser=chrome    executable_path=/usr/local/bin/chromedriver    options=${options}
+	Sleep    15
