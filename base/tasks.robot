@@ -2,12 +2,17 @@
 Library  SeleniumLibrary
 
 *** Variables ***
-${URL}=  https://elpais.com/america/
+${URL}  https://www.marketwatch.com/investing/stock/msft
+
+*** Keywords ***
+Open Website And Get Price
+    Open Browser  ${URL}  chrome
+    Maximize Browser Window
+    Wait Until Page Contains Element  xpath=//bg-quote[@class='value']  10
+    ${price}=  Get Text  xpath=//bg-quote[@class='value']
+    [Return]  ${price}
 
 *** Test Cases ***
-Open El Pais
-	${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
-	${options.binary_location}=    Set Variable        /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
-	Open Browser    url=${URL}    browser=chrome    executable_path=/usr/local/bin/chromedriver    options=${options}
-	Sleep    15s
-	Close Browser
+Get Microsoft Stock Price
+    ${price}=  Open Website And Get Price
+    Log  Microsoft Stock Price: ${price}
