@@ -6,12 +6,13 @@ Suite Teardown  Close All Browsers
 ${URL}  https://www.marketwatch.com/investing/stock/msft
 
 *** Keywords ***
-Open Browser And Get Price
-    Open Browser  ${URL}  Chrome
+Open Browser And Get Stock Price
+    Open Browser  ${URL}  chrome
+    Maximize Browser Window
     Wait Until Page Contains Element  xpath://*[@class='intraday__price']  timeout=10
-    ${price}=  Get Text  xpath://*[@class='intraday__price']
-    Log  Microsoft Stock Price: ${price}
+    ${stock_price}=  Get Text  xpath://*[@class='intraday__price']
+    Log  Microsoft Stock Price: ${stock_price}
 
 *** Test Cases ***
 Get Microsoft Stock Price
-    Open Browser And Get Price
+    Open Browser And Get Stock Price
