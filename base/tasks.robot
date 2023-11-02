@@ -1,17 +1,18 @@
 *** Settings ***
-Library           String
+Library  SeleniumLibrary
 
 *** Variables ***
-${WEB_CONTENT}    ${EMPTY}
+${URL}  https://www.marketwatch.com/investing/stock/msft
 
 *** Keywords ***
-Extract Stock Price
-    [Arguments]    ${content}
-    ${start} =    Get Substring Index    ${content}    $\n    ${end} =    Get Substring Index    ${content}    After Hours Volume:
-    ${stock_price} =    Get Substring    ${content}    ${start + 1}    ${end}
-    ${stock_price} =    Get Substring    ${stock_price}    0    ${stock_price.find(' ')}
-    Log    Microsoft Stock Price: ${stock_price}
+Open Website And Get Price
+    Open Browser  ${URL}  chrome
+    Maximize Browser Window
+    Wait Until Page Contains Element  xpath=//bg-quote[@class='value']  10
+    ${price}=  Get Text  xpath=//bg-quote[@class='value']
+    [Return]  ${price}
 
 *** Test Cases ***
-Copy Microsoft Stock Price
-    Extract Stock Price    ${WEB_CONTENT}
+Get Microsoft Stock Price
+    ${price}=  Open Website And Get Price
+    Log  Microsoft Stock Price: ${price}
