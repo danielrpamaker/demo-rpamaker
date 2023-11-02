@@ -1,18 +1,18 @@
 *** Settings ***
 Library  SeleniumLibrary
+Suite Teardown  Close All Browsers
 
 *** Variables ***
 ${URL}  https://www.marketwatch.com/investing/stock/msft
 
 *** Keywords ***
-Open Website And Get Price
-    Open Browser  ${URL}  chrome
-    Maximize Browser Window
-    Wait Until Page Contains Element  xpath=//bg-quote[@class='value']  10
-    ${price}=  Get Text  xpath=//bg-quote[@class='value']
+Open Browser And Get Price
+    Open Browser  ${URL}  Chrome
+    Wait Until Page Contains Element  xpath://*[@class='value']
+    ${price}=  Get Text  xpath://*[@class='value']
     [Return]  ${price}
 
 *** Test Cases ***
 Get Microsoft Stock Price
-    ${price}=  Open Website And Get Price
+    ${price}=  Open Browser And Get Price
     Log  Microsoft Stock Price: ${price}
