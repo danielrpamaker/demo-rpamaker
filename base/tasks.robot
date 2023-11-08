@@ -1,5 +1,6 @@
 *** Settings ***
 Library  SeleniumLibrary
+Library  libraries/ExampleHelper.py
 
 *** Variables ***
 ${URL}  https://www.marketwatch.com/investing/stock/msft
@@ -14,5 +15,6 @@ Open Website And Get Price
 
 *** Test Cases ***
 Get Microsoft Stock Price
+    Example Python Keyword
     ${price}=  Open Website And Get Price
     Log  Microsoft Stock Price: ${price}
