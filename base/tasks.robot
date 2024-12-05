@@ -22,6 +22,7 @@ Example Keyword
 *** Tasks ***
 Example Task
     Log    ${my_event_id}
+    Log    PRUEBA
     # DANIEL DEV EXAMPLE:
     Copy Event    1105989306789    3GRRIJFTF2PRUJJ4OXBH
     # CLIENT PROD EXAMPLE:
