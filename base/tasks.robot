@@ -1,20 +1,19 @@
 *** Settings ***
-Library  SeleniumLibrary
-Library  libraries/ExampleHelper.py
+Documentation   Template robot main suite.
+Library         OperatingSystem
+Library         SeleniumLibrary
+Library         Collections
+Library         libraries/ExampleHelper.py
+Library         libraries/ed.py
+Resource        keywords/keywords.robot
 
-*** Variables ***
-${URL}  https://www.marketwatch.com/investing/stock/msft
 
 *** Keywords ***
-Open Website And Get Price
-    Open Browser  ${URL}  chrome
-    Maximize Browser Window
-    Wait Until Page Contains Element  xpath=//bg-quote[@class='value']  10
-    ${price}=  Get Text  xpath=//bg-quote[@class='value']
-    [Return]  ${price}
+Example Keyword
+    Open Browser     http://rpachallenge.com/    Chrome 
+    Log    HOLAMUNDO    level=WARN
 
-*** Test Cases ***
-Get Microsoft Stock Price
-    Example Python Keyword
-    ${price}=  Open Website And Get Price
-    Log  Microsoft Stock Price: ${price}
+
+*** Tasks ***
+Example Task
+    Copy Event    1105989306789    3GRRIJFTF2PRUJJ4OXBH

@@ -9,3 +9,4 @@ output.xml
 .env
 *.pyc
 venv/*
+.vscode/
